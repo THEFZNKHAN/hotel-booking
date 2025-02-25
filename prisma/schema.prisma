@@ -1,0 +1,84 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id       Int       @id @default(autoincrement())
+  name     String
+  email    String    @unique
+  password String
+  role     Role
+  contact  String?
+  listings Listing[]
+  bookings Booking[]
+}
+
+model Listing {
+  id          Int         @id @default(autoincrement())
+  vendor      User        @relation(fields: [vendorId], references: [id])
+  vendorId    Int
+  type        ListingType
+  name        String
+  address     String
+  description String
+  facilities  String
+  pricing     Float
+  images      String
+  units       Unit[]
+  bookings    Booking[]
+}
+
+model Unit {
+  id           Int       @id @default(autoincrement())
+  listing      Listing   @relation(fields: [listingId], references: [id])
+  listingId    Int
+  capacity     Int
+  price        Float
+  availability Boolean   @default(true)
+  Booking      Booking[]
+}
+
+model Booking {
+  id          Int           @id @default(autoincrement())
+  customer    User          @relation(fields: [customerId], references: [id])
+  customerId  Int
+  listing     Listing       @relation(fields: [listingId], references: [id])
+  listingId   Int
+  unit        Unit          @relation(fields: [unitId], references: [id])
+  unitId      Int
+  bookingDate DateTime
+  status      BookingStatus
+  payment     String?
+  review      Review?
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  booking   Booking  @relation(fields: [bookingId], references: [id])
+  bookingId Int      @unique
+  rating    Int
+  comments  String?
+  createdAt DateTime @default(now())
+}
+
+enum Role {
+  CUSTOMER
+  VENDOR
+  ADMIN
+}
+
+enum ListingType {
+  HOTEL
+  RESTAURANT
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
