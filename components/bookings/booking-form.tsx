@@ -67,12 +67,8 @@ export function BookingForm({
             toast.success("Your booking has been created");
 
             router.push("/dashboard/bookings");
-        } catch (error) {
-            toast.error(
-                error instanceof Error
-                    ? error.message
-                    : "Failed to create booking"
-            );
+        } catch {
+            toast.error("Failed to create booking");
         } finally {
             setIsLoading(false);
         }

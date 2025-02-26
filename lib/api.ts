@@ -1,4 +1,4 @@
-import type { Booking, Listing, Review } from "@/types";
+import type { Listing, Review } from "@/types";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
@@ -38,7 +38,12 @@ export async function getBookings(params?: URLSearchParams) {
     return res.json();
 }
 
-export async function createBooking(data: Partial<Booking>) {
+export async function createBooking(data: {
+    listingId: string;
+    unitId: string;
+    bookingDate: string;
+    status: string;
+}) {
     const res = await fetch(`${API_BASE}/api/bookings`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -52,7 +57,7 @@ export async function createBooking(data: Partial<Booking>) {
 export async function getReviews(params?: URLSearchParams) {
     const url = params
         ? `${API_BASE}/api/reviews?${params}`
-        : `${API_BASE}/api/reviews`;
+        : `${API_BASE}/api/reviews}`;
     const res = await fetch(url);
     if (!res.ok) throw new Error("Failed to fetch reviews");
     return res.json();
@@ -65,5 +70,11 @@ export async function createReview(data: Partial<Review>) {
         body: JSON.stringify(data),
     });
     if (!res.ok) throw new Error("Failed to create review");
+    return res.json();
+}
+
+export async function getUnits(listingId: string) {
+    const res = await fetch(`${API_BASE}/api/units?listingId=${listingId}`);
+    if (!res.ok) throw new Error("Failed to fetch units");
     return res.json();
 }

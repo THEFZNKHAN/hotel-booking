@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
@@ -31,7 +31,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { createBooking } from "@/lib/api";
+import { createBooking, getUnits } from "@/lib/api";
 import { toast } from "sonner";
 
 const bookingSchema = z.object({
@@ -163,5 +163,23 @@ export function BookingForm({
 }
 
 export default function Page() {
-    return <BookingForm listingId="some-listing-id" units={[]} />;
+    const [units, setUnits] = useState<
+        { id: string; name: string; price: number }[]
+    >([]);
+    const listingId = "some-listing-id";
+
+    useEffect(() => {
+        async function fetchUnits() {
+            try {
+                const units = await getUnits(listingId);
+                setUnits(units);
+            } catch (error) {
+                console.error("Failed to fetch units", error);
+            }
+        }
+
+        fetchUnits();
+    }, [listingId]);
+
+    return <BookingForm listingId={listingId} units={units} />;
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -11,14 +12,28 @@ const hotels = [
         name: "Hotel California",
         location: "Los Angeles, CA",
         price: 200,
+        image: "/hotel-1.jpg",
+        description:
+            "A luxurious hotel in the heart of Los Angeles, offering stunning views and top-notch amenities.",
     },
     {
         id: 2,
         name: "The Grand Budapest Hotel",
         location: "Zubrowka",
         price: 300,
+        image: "/hotel-2.jpg",
+        description:
+            "An iconic hotel known for its exceptional service and unique architecture.",
     },
-    { id: 3, name: "Hotel Transylvania", location: "Transylvania", price: 150 },
+    {
+        id: 3,
+        name: "Hotel Transylvania",
+        location: "Transylvania",
+        price: 150,
+        image: "/hotel-3.jpg",
+        description:
+            "A spooky yet charming hotel located in the heart of Transylvania.",
+    },
 ];
 
 export default function HotelsPage() {
@@ -37,8 +52,18 @@ export default function HotelsPage() {
                             <CardTitle>{hotel.name}</CardTitle>
                         </CardHeader>
                         <CardContent>
+                            <div className="relative w-full h-48 mb-4">
+                                <Image
+                                    src={hotel.image}
+                                    alt={hotel.name}
+                                    layout="fill"
+                                    objectFit="cover"
+                                    className="rounded-md"
+                                />
+                            </div>
                             <p>{hotel.location}</p>
                             <p>${hotel.price} per night</p>
+                            <p className="mt-2">{hotel.description}</p>
                             <Button asChild variant="outline" className="mt-4">
                                 <Link href={`/listings/hotels/${hotel.id}`}>
                                     View Details

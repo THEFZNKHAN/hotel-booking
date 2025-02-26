@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -8,21 +9,24 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 const restaurants = [
     {
         id: 1,
-        name: "Chez Panisse",
-        location: "Berkeley, CA",
-        priceRange: "$$$",
-    },
-    {
-        id: 2,
         name: "Le Bernardin",
         location: "New York, NY",
         priceRange: "$$$$",
+        image: "/restaurant-2.jpg",
+    },
+    {
+        id: 2,
+        name: "Chez Panisse",
+        location: "Berkeley, CA",
+        priceRange: "$$$",
+        image: "/restaurant-1.jpg",
     },
     {
         id: 3,
         name: "Noma",
         location: "Copenhagen, Denmark",
         priceRange: "$$$$",
+        image: "/restaurant-3.jpg",
     },
 ];
 
@@ -42,6 +46,15 @@ export default function RestaurantsPage() {
                             <CardTitle>{restaurant.name}</CardTitle>
                         </CardHeader>
                         <CardContent>
+                            <div className="relative w-full h-48 mb-4">
+                                <Image
+                                    src={restaurant.image}
+                                    alt={restaurant.name}
+                                    layout="fill"
+                                    objectFit="cover"
+                                    className="rounded-md"
+                                />
+                            </div>
                             <p>{restaurant.location}</p>
                             <p>Price Range: {restaurant.priceRange}</p>
                             <Button asChild variant="outline" className="mt-4">
