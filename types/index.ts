@@ -29,7 +29,9 @@ export interface Booking {
     id: string;
     listingId: string;
     listing: Listing;
+    unitId: string;
     userId: string;
+    bookingDate: string
     user: User;
     startDate: string;
     endDate: string;

@@ -17,6 +17,7 @@ export function Navbar() {
         { name: "Hotels", href: "/listings/hotels" },
         { name: "Restaurants", href: "/listings/restaurants" },
         { name: "About", href: "/about" },
+        { name: "Dashboard", href: "/dashboard" },
     ];
 
     return (
