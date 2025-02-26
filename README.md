@@ -1,4 +1,4 @@
-# Hotel Booking System
+# Quick Stay - Hotel Booking System
 
 # Software Requirements Specification (SRS)
 ## Hotel & Restaurant Booking Website
